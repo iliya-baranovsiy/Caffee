@@ -1,6 +1,11 @@
-from django.urls import path
-from .views import head_page
+from django.urls import path, include
+from .views import head_page, CaffeViewSet
+from rest_framework.routers import DefaultRouter
+
+router = DefaultRouter()
+router.register(r'caffe', CaffeViewSet)
 
 urlpatterns = [
-    path('', head_page)
+    path('', head_page),
+    path('api/', include(router.urls))
 ]
