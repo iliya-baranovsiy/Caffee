@@ -3,6 +3,7 @@ from rest_framework import viewsets, status
 from rest_framework.response import Response
 from .models import Caffe
 from .serializer import CaffeSerializer
+from django.db.models import Sum
 
 
 # Create your views here.
@@ -10,6 +11,59 @@ from .serializer import CaffeSerializer
 
 def head_page(request):
     return render(request, "head_page.html")
+
+
+def all_orders(request):
+    orders = Caffe.objects.all()
+    return render(request, "all_orders.html", {'orders': orders})
+
+
+def delete_order(request):
+    message = ""
+    if request.method == "POST":
+        id = request.POST.get("text_input")
+        if id:
+            try:
+                Caffe.objects.get(id=id).delete()
+                message = "Заказ успрешно удалён !"
+            except:
+                message = "Заказа с таким id не существует"
+
+    return render(request, "delete.html", {"message": message})
+
+
+def change_status(request):
+    message = ""
+    if request.method == "POST":
+        id = request.POST.get("text_input")
+        change = request.POST.get("data_select")
+        if id:
+            try:
+                caffe_object = Caffe.objects.get(id=id)
+                present_status = caffe_object.status
+                if present_status == change:
+                    message = "Текущий статус уже установлен"
+                else:
+                    caffe_object.status = change
+                    caffe_object.save()
+                    message = "Статус успешно обновлён"
+            except:
+                message = "Заказа с таким id не существует"
+    return render(request, 'change_status.html', {'message': message})
+
+
+def common_currency(request):
+    total_price = Caffe.objects.aggregate(Sum('total_price'))['total_price__sum']
+    if total_price:
+        context = {
+            'price': total_price,
+        }
+    else:
+        context = {
+            'price': 'Список заказов пуст. Общая стоимость: 0',
+        }
+
+    return render(request, "currency.html", context)
 
 
 class CaffeViewSet(viewsets.ModelViewSet):

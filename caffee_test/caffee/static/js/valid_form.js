@@ -21,9 +21,13 @@ document.getElementById('product-form').addEventListener('submit', function(even
         if (!isNaN(name) && name.trim() !== '') {
             hasError = true;
             window.alert("Ошибка: Название блюда не должно содержать только числа.")
-        } else if (name && !isNaN(price)) {
+        } else if (name && !isNaN(price) && price>=0) {
             data.items[name] = price;
             data.total_price += price;
+        }
+        else {
+            hasError = true;
+            window.alert("Цена не может быть отрицательной")
         }
     });
 

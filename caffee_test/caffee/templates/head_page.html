@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Добавить товар</title>
+    <title>Head</title>
 </head>
 <body>
     <h1>Добавить товар</h1>
@@ -22,6 +22,21 @@
         <button type="button" id="add-product">Добавить еще товар</button>
         <button type="submit">Отправить</button>
     </form>
+    <form action="http://127.0.0.1:8000/all_orders" id="redirect">
+        <button type="submit">All</button>
+    </form>
+    <form action="http://127.0.0.1:8000/delete_order/" id="delete">
+        <button type="submit">Delete</button>
+    </form>
+    <form action="http://127.0.0.1:8000/change_status/" id="change">
+        <button type="submit">Change_status</button>
+    </form>
+    <form action="http://127.0.0.1:8000/currency/" id="currency">
+        <button type="submit">Check currency</button>
+    </form>
+
+
+
     <script type="module" src="{% static 'js/add.js' %}"></script>
     <script type="module" src="{% static 'js/valid_form.js' %}"></script>
 </body>

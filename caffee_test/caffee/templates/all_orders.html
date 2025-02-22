@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>All</title>
+</head>
+<body>
+    <form action="http://127.0.0.1:8000" id="back">
+        <button type="submit">Назад</button>
+    </form>
+    <div class="container">
+        {% for order in orders %}
+        <div class="order-item">
+            <p>id: {{order.id}}</p>
+            <p>Номер стола: {{order.table_number}}</p>
+            <p>Блюда: {{order.items.keys|join:", " }}</p>
+            <p>Общая стоимость: {{order.total_price}}</p>
+            <p>Статус: {{order.status}}</p>
+            {% empty %}
+            <p>Список закзов пуст</p>
+        </div>
+        {% endfor %}
+    </div>
+
+</body>
+</html>
