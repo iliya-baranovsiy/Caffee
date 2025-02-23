@@ -62,8 +62,27 @@ def common_currency(request):
         context = {
             'price': 'Список заказов пуст. Общая стоимость: 0',
         }
-
     return render(request, "currency.html", context)
+
+
+def search_order(request):
+    context = {}
+    if request.method == "GET":
+        data = request.GET.get('query', '')
+        orders = []
+        if not data.strip():
+            context['error'] = 'Пожалуйста, введите номер стола или статус.'
+        else:
+            try:
+                table_number = int(data)
+                orders = Caffe.objects.filter(table_number=table_number)
+            except ValueError:
+                orders = Caffe.objects.filter(status=data)
+        if not orders and data.strip():
+            context['error'] = 'Заказы не найдены. Пожалуйста, проверьте номер стола или статус.'
+        else:
+            context['orders'] = orders
+    return render(request, 'search.html', context)
 
 
 class CaffeViewSet(viewsets.ModelViewSet):

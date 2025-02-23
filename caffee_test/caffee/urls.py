@@ -1,5 +1,5 @@
 from django.urls import path, include
-from .views import head_page, CaffeViewSet, all_orders, delete_order, change_status,common_currency
+from .views import head_page, CaffeViewSet, all_orders, delete_order, change_status, common_currency, search_order
 from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
@@ -11,5 +11,6 @@ urlpatterns = [
     path('delete_order/', delete_order),
     path('change_status/', change_status),
     path('currency/', common_currency),
+    path('search/', search_order),
     path('api/', include(router.urls))
 ]

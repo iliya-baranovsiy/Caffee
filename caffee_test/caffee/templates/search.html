@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Search</title>
+</head>
+<body>
+    <form action="http://127.0.0.1:8000" id="back">
+        <button type="submit">Назад</button>
+    </form>
+    <form id="search-form" method="GET">
+        <input type="text" name="query" id="search-input" placeholder="Введите номер стола или статус" required>
+        <button type="submit" id="search-button">Поиск</button>
+    </form>
+    <h1>Результаты поиска</h1>
+
+    {% if error %}
+        <p>{{ error }}</p>
+    {% else %}
+        {% if orders %}
+            <ul>
+                {% for order in orders %}
+                    <li>
+                        <strong>ID:</strong> {{ order.id }}<br>
+                        <strong>Номер стола:</strong> {{ order.table_number }}<br>
+                        <strong>Блюда:</strong>
+                        <ul>
+                            {% for key, value in order.items.items %}
+                                <li>{{ key }} - {{ value }}</li>
+                            {% empty %}
+                                <li>Нет доступных данных.</li>
+                            {% endfor %}
+                        </ul>
+                        <strong>Итого:</strong> {{ order.total_price }}<br>
+                        <strong>Статус:</strong> {{ order.status }}<br>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>Список заказов пуст.</p>
+        {% endif %}
+    {% endif %}
+</body>
+</html>

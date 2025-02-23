@@ -10,6 +10,11 @@ document.getElementById('add-product').addEventListener('click', function() {
         <input type="text" name="name-${index}" id="name-${index}" required>
         <label for="price-${index}">Цена:</label>
         <input type="number" name="price-${index}" id="price-${index}" step="0.01" required>
+        <button type="button" class="remove-product">Удалить</button>
     `;
     productFields.appendChild(newField);
+
+    newField.querySelector('.remove-product').addEventListener('click', function() {
+        productFields.removeChild(newField);
+    });
 });
