@@ -71,7 +71,7 @@ def common_currency(request):
         }
     else:
         context = {
-            'price': 'Список заказов пуст. Общая стоимость: 0',
+            'price': 'Список заказов пуст. Общая стоимость: 0 ',
         }
     return render(request, "currency.html", context)
 

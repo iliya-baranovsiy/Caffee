@@ -27,12 +27,12 @@
             <strong>Блюда:</strong>
             <ul>
                 {% for key, value in order.items.items %}
-                <li>{{ key }} - {{ value }}</li>
+                <li>{{ key }} - {{ value }} BYN</li>
                 {% empty %}
                 <li>Нет доступных данных.</li>
                 {% endfor %}
             </ul>
-            <strong>Итого:</strong> {{ order.total_price }}<br>
+            <strong>Итого:</strong> {{ order.total_price }} BYN<br>
             <strong>Статус:</strong> {{ order.status }}<br>
         </li>
         {% endfor %}

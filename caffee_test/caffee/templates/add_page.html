@@ -1,10 +1,30 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Add page</title>
 </head>
 <body>
-
+    <form action="http://127.0.0.1:8000" id="back">
+        <button type="submit">Назад</button>
+    </form>
+    <h1>Добавить заказ</h1>
+    <form id="product-form">
+        <div id="product-fields">
+            <div class="product-field" id="product-field-0">
+                <label for="table-0">Номер стола:</label>
+                <input type="number" name="table" id="table-0" required>
+                <label for="name-0">Название блюда:</label>
+                <input type="text" name="name-0" id="name-0" required>
+                <label for="price-0">Цена:</label>
+                <input type="number" name="price-0" id="price-0" step="0.01" required>
+            </div>
+        </div>
+        <button type="button" id="add-product">Добавить еще блюдо</button>
+        <button type="submit">Применить</button>
+    </form>
+    <script type="module" src="{% static 'js/add.js' %}"></script>
+    <script type="module" src="{% static 'js/valid_form.js' %}"></script>
 </body>
 </html>

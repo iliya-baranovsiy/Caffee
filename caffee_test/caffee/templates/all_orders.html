@@ -26,7 +26,7 @@
             <p>id: {{order.id}}</p>
             <p>Номер стола: {{order.table_number}}</p>
             <p>Блюда: {{order.items.keys|join:", " }}</p>
-            <p>Общая стоимость: {{order.total_price}}</p>
+            <p>Общая стоимость: {{order.total_price}} BYN</p>
             <p>Статус: {{order.status}}</p>
         </div>
         {% empty %}
