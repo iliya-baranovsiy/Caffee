@@ -10,7 +10,7 @@ async function valid() {
             table_number: formData.get('table'),
             items: {},
             total_price: 0,
-            status: "в ожидании"
+            status: "В ожидании"
         };
 
         const isTableOccupied = await get(formData.get('table'));

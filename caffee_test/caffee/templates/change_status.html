@@ -1,10 +1,11 @@
-<!DOCTYPE html>
-{% load static %}
+<!DOCTYPE html> {% load static %}
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Change_status</title>
 </head>
+
 <body>
     <form action="http://127.0.0.1:8000" id="back">
         <button type="submit">Назад</button>
@@ -25,7 +26,8 @@
         <button type="submit">Изменить</button>
     </form>
     {% if message %}
-        <p>{{ message }}</p>
+    <p>{{ message }}</p>
     {% endif %}
 </body>
+
 </html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Redact</title>
+</head>
+
+<body>
+    <form action="http://127.0.0.1:8000" id="back">
+        <button type="submit">Назад</button>
+    </form>
+    <form id="search-form" method="GET">
+        <input type="number" name="query" id="search-input" placeholder="Введите номер стола" required>
+        <button type="submit" id="search-button">Поиск</button>
+    </form>
+    <h1>Результаты поиска</h1>
+
+    {% if error %}
+    <p>{{ error }}</p>
+    {% else %} {% if orders %}
+    <ul>
+        {% for order in orders %}
+        <li>
+            <strong>ID:</strong> {{ order.id }}<br>
+            <strong>Номер стола:</strong> {{ order.table_number }}<br>
+            <strong>Блюда:</strong>
+            <ul>
+                {% for key, value in order.items.items %}
+                <li>
+                    {{ key }}
+                    <form action="{% url 'update_dish' order.id key %}" method="POST" style="display:inline;">
+                        {% csrf_token %}
+                        <input type="text" name="new_name" placeholder="Новое название" required>
+                        <button type="submit">Изменить</button>
+                    </form>
+                    <form action="{% url 'delete_dish' order.id key %}" method="POST" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit">Удалить</button>
+                    </form>
+                </li>
+                {% empty %}
+                <li>Нет доступных данных.</li>
+                {% endfor %}
+            </ul>
+            <strong>Итого:</strong> {{ order.total_price }}<br>
+            <strong>Статус:</strong> {{ order.status }}<br>
+            <h2>Добавить новое блюдо</h2>
+            <form action="{% url 'add_dish' order.id %}" method="POST">
+                {% csrf_token %}
+                <input type="text" name="new_dish_name" placeholder="Название блюда" required>
+                <input type="number" name="new_dish_price" placeholder="Цена блюда" required>
+                <button type="submit">Добавить</button>
+            </form>
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>Список заказов пуст.</p>
+    {% endif %} {% endif %}
+</body>
+
+</html>

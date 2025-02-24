@@ -1,13 +1,24 @@
-<!DOCTYPE html>
-{% load static %}
+<!DOCTYPE html> {% load static %}
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>All</title>
 </head>
+
 <body>
     <form action="http://127.0.0.1:8000" id="back">
         <button type="submit">Назад</button>
+    </form>
+    <form method="GET" action="">
+        <label for="status">Фильтровать по статусу:</label>
+        <select name="status" id="status">
+            <option value="">Все</option>
+            <option value="В ожидании">В ожидании</option>
+            <option value="Готово">Готово</option>
+            <option value="Оплачено">Оплачено</option>
+        </select>
+        <button type="submit">Применить</button>
     </form>
     <div class="container">
         {% for order in orders %}
@@ -17,11 +28,11 @@
             <p>Блюда: {{order.items.keys|join:", " }}</p>
             <p>Общая стоимость: {{order.total_price}}</p>
             <p>Статус: {{order.status}}</p>
-            {% empty %}
-            <p>Список закзов пуст</p>
         </div>
+        {% empty %}
+        <p>Список заказов пуст.</p>
         {% endfor %}
     </div>
-
 </body>
+
 </html>

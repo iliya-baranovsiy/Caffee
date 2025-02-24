@@ -1,27 +1,28 @@
-<!DOCTYPE html>
-{% load static %}
+<!DOCTYPE html> {% load static %}
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Head</title>
 </head>
+
 <body>
     <h1>Добавить товар</h1>
     <form id="product-form">
-    <div id="product-fields">
-        <div class="product-field" id="product-field-0">
-            <label for="table-0">Номер стола:</label>
-            <input type="number" name="table" id="table-0" required>
-            <label for="name-0">Название блюда:</label>
-            <input type="text" name="name-0" id="name-0" required>
-            <label for="price-0">Цена:</label>
-            <input type="number" name="price-0" id="price-0" step="0.01" required>
+        <div id="product-fields">
+            <div class="product-field" id="product-field-0">
+                <label for="table-0">Номер стола:</label>
+                <input type="number" name="table" id="table-0" required>
+                <label for="name-0">Название блюда:</label>
+                <input type="text" name="name-0" id="name-0" required>
+                <label for="price-0">Цена:</label>
+                <input type="number" name="price-0" id="price-0" step="0.01" required>
+            </div>
         </div>
-    </div>
-    <button type="button" id="add-product">Добавить еще товар</button>
-    <button type="submit">Отправить</button>
-</form>
+        <button type="button" id="add-product">Добавить еще товар</button>
+        <button type="submit">Отправить</button>
+    </form>
     <form action="http://127.0.0.1:8000/all_orders" id="redirect">
         <button type="submit">All</button>
     </form>
@@ -37,7 +38,11 @@
     <form action="http://127.0.0.1:8000/search/" id="search">
         <button type="submit">search order</button>
     </form>
+    <form action="http://127.0.0.1:8000/redact/" id="redact">
+        <button type="submit">redact</button>
+    </form>
     <script type="module" src="{% static 'js/add.js' %}"></script>
     <script type="module" src="{% static 'js/valid_form.js' %}"></script>
 </body>
+
 </html>

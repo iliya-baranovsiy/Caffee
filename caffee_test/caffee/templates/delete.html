@@ -1,22 +1,24 @@
-<!DOCTYPE html>
-{% load static %}
+<!DOCTYPE html> {% load static %}
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
+
 <body>
     <form action="http://127.0.0.1:8000" id="back">
         <button type="submit">Назад</button>
     </form>
-    <form id="delete_order_form" method="post" >
+    <form id="delete_order_form" method="post">
         {% csrf_token %}
         <label for="text_input">Введите id заказа</label>
         <input type="number" id="text_input" name="text_input" required>
         <button type="submit">Удалить</button>
     </form>
     {% if message %}
-        <p>{{ message }}</p>
+    <p>{{ message }}</p>
     {% endif %}
 </body>
+
 </html>

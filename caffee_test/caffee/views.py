@@ -1,9 +1,13 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from rest_framework import viewsets, status
 from rest_framework.response import Response
+from unicodedata import decimal
 from .models import Caffe
 from .serializer import CaffeSerializer
 from django.db.models import Sum
+from django.shortcuts import get_object_or_404
+from django.views.decorators.http import require_POST
+from django.http import JsonResponse
 
 
 # Create your views here.
@@ -13,8 +17,16 @@ def head_page(request):
     return render(request, "head_page.html")
 
 
+def add_page(request):
+    return render(request, "add_page.html")
+
+
 def all_orders(request):
-    orders = Caffe.objects.all()
+    status_filter = request.GET.get('status', None)
+    if status_filter:
+        orders = Caffe.objects.filter(status=status_filter)
+    else:
+        orders = Caffe.objects.all()
     return render(request, "all_orders.html", {'orders': orders})
 
 
@@ -28,7 +40,6 @@ def delete_order(request):
                 message = "Заказ успрешно удалён !"
             except:
                 message = "Заказа с таким id не существует"
-
     return render(request, "delete.html", {"message": message})
 
 
@@ -53,8 +64,8 @@ def change_status(request):
 
 
 def common_currency(request):
-    total_price = Caffe.objects.aggregate(Sum('total_price'))['total_price__sum']
-    if total_price:
+    total_price = Caffe.objects.filter(status="Оплачено").aggregate(Sum('total_price'))['total_price__sum']
+    if total_price is not None:
         context = {
             'price': total_price,
         }
@@ -83,6 +94,56 @@ def search_order(request):
         else:
             context['orders'] = orders
     return render(request, 'search.html', context)
+
+
+def redact(request):
+    context = {}
+    if request.method == "GET":
+        data = request.GET.get('query', '')
+        orders = []
+        if not data.strip():
+            context['error'] = 'Пожалуйста, введите номер стола.'
+        else:
+            orders = Caffe.objects.filter(table_number=data)
+        if not orders and data.strip():
+            context['error'] = 'Заказы не найдены. Пожалуйста, проверьте номер стола.'
+        else:
+            context['orders'] = orders
+    return render(request, "redact.html", context)
+
+
+def add_dish(request, order_id):
+    if request.method == "POST":
+        try:
+            new_dish_name = request.POST.get('new_dish_name')
+            new_dish_price = decimal(request.POST.get('new_dish_price'))
+            order = get_object_or_404(Caffe, id=order_id)
+            order.total_price += new_dish_price
+            order.items[new_dish_name] = new_dish_price
+            order.save()
+            return redirect("redact")
+        except:
+            return JsonResponse({'her': 'her'})
+
+
+@require_POST
+def update_dish(request, order_id, dish_name):
+    new_name = request.POST.get('new_name')
+    order = get_object_or_404(Caffe, id=order_id)
+    if dish_name in order.items:
+        order.items[new_name] = order.items[dish_name]
+        del order.items[dish_name]
+        order.save()
+    return redirect("redact")
+
+
+@require_POST
+def delete_dish(order_id, dish_name):
+    order = get_object_or_404(Caffe, id=order_id)
+    if dish_name in order.items:
+        del order.items[dish_name]
+        order.save()
+    return redirect("redact")
 
 
 class CaffeViewSet(viewsets.ModelViewSet):
