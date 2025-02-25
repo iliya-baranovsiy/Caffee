@@ -78,11 +78,11 @@ WSGI_APPLICATION = 'caffee_test.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'caffe_for_test',
-        'USER': 'postgres',
-        'PASSWORD': '1234567890qwerty',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'NAME': 'NAME',
+        'USER': 'USER',
+        'PASSWORD': 'PASSWORD',
+        'HOST': 'HOST',
+        'PORT': 'PORT',
     }
 }
 
