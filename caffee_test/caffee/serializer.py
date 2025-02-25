@@ -9,11 +9,13 @@ class CaffeSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
     def validate_table_number(self, value):
+        # функция валидации номера стола
         if not isinstance(value, int) or value <= 0:
             raise serializers.ValidationError("Table number must be an integer and positive.")
         return value
 
     def validate_items(self, value):
+        # функция валидации блюда и его цены
         if value is None:
             raise serializers.ValidationError("Items must be provided and cannot be None.")
 
@@ -36,6 +38,7 @@ class CaffeSerializer(serializers.ModelSerializer):
         return value
 
     def validate_total_price(self, value):
+        # функция валидации общей стоимости со статусом 'Оплачено'
         if value < 0:
             raise serializers.ValidationError("Total price must be more than zero")
         return value

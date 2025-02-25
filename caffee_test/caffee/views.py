@@ -22,6 +22,7 @@ def add_page(request):
 
 
 def all_orders(request):
+    # функция возвращающая заказы и фильтрацию по статусу
     status_filter = request.GET.get('status', None)
     if status_filter:
         orders = Caffe.objects.filter(status=status_filter)
@@ -31,6 +32,7 @@ def all_orders(request):
 
 
 def delete_order(request):
+    # функция удаляющая заказ по id
     message = ""
     if request.method == "POST":
         id = request.POST.get("text_input")
@@ -44,6 +46,7 @@ def delete_order(request):
 
 
 def change_status(request):
+    # функция меняющая статус
     message = ""
     if request.method == "POST":
         id = request.POST.get("text_input")
@@ -64,6 +67,7 @@ def change_status(request):
 
 
 def common_currency(request):
+    # функция для отображения общей стоимости заказов со статусом 'Оплчено'
     total_price = Caffe.objects.filter(status="Оплачено").aggregate(Sum('total_price'))['total_price__sum']
     if total_price is not None:
         context = {
@@ -77,6 +81,7 @@ def common_currency(request):
 
 
 def search_order(request):
+    # функция поиска заказа по номеру стола или статусу
     context = {}
     if request.method == "GET":
         data = request.GET.get('query', '')
@@ -97,6 +102,7 @@ def search_order(request):
 
 
 def redact(request):
+    # функция для редактирования заказа
     context = {}
     if request.method == "GET":
         data = request.GET.get('query', '')
@@ -113,6 +119,7 @@ def redact(request):
 
 
 def add_dish(request, order_id):
+    # функция для добавления блюда
     if request.method == "POST":
         try:
             new_dish_name = request.POST.get('new_dish_name')
@@ -123,11 +130,12 @@ def add_dish(request, order_id):
             order.save()
             return redirect("redact")
         except:
-            return JsonResponse({'her': 'her'})
+            return redirect("redact")
 
 
 @require_POST
 def update_dish(request, order_id, dish_name):
+    # функция для изменения названия блюда
     new_name = request.POST.get('new_name')
     order = get_object_or_404(Caffe, id=order_id)
     if dish_name in order.items:
@@ -139,6 +147,7 @@ def update_dish(request, order_id, dish_name):
 
 @require_POST
 def delete_dish(order_id, dish_name):
+    # функция для удаления блюда
     order = get_object_or_404(Caffe, id=order_id)
     if dish_name in order.items:
         del order.items[dish_name]
@@ -151,6 +160,7 @@ class CaffeViewSet(viewsets.ModelViewSet):
     serializer_class = CaffeSerializer
 
     def create(self, request, *args, **kwargs):
+        # функция для принятия POST запроса
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
