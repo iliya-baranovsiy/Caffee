@@ -17,5 +17,5 @@ urlpatterns = [
     path('update_dish/<int:order_id>/<str:dish_name>/', views.update_dish, name='update_dish'),
     path('delete_dish/<int:order_id>/<str:dish_name>/', views.delete_dish, name='delete_dish'),
     path('add_dish/<int:order_id>/', views.add_dish, name='add_dish'),
-    path('api/', include(router.urls)),
+    path('add_page/api/', include(router.urls)),
 ]
